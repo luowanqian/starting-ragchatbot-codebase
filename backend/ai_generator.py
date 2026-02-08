@@ -29,8 +29,12 @@ All responses must be:
 Provide only the direct answer to what was asked.
 """
     
-    def __init__(self, api_key: str, model: str):
-        self.client = anthropic.Anthropic(api_key=api_key)
+    def __init__(self, api_key: str, model: str, base_url: Optional[str] = None):
+        # Create client with optional base_url
+        client_kwargs = {"api_key": api_key}
+        if base_url is not None:
+            client_kwargs["base_url"] = base_url
+        self.client = anthropic.Anthropic(**client_kwargs)
         self.model = model
         
         # Pre-build base API parameters
