@@ -146,7 +146,8 @@ class VectorStore:
                 "lesson_title": lesson.title,
                 "lesson_link": lesson.lesson_link
             })
-        
+
+        # Stores metadata in course_catalog collection
         self.course_catalog.add(
             documents=[course_text],
             metadatas=[{

@@ -21,7 +21,7 @@ This is a Retrieval-Augmented Generation (RAG) system for querying course materi
    - Tool-based search via `ToolManager`
 
 2. **Vector Storage** (`backend/vector_store.py`): Uses ChromaDB with:
-   - Two collections: `course_metadata` and `course_content`
+   - Two collections: `course_catalog` and `course_content`
    - SentenceTransformer embeddings (`all-MiniLM-L6-v2` by default)
    - Persistent storage in `./chroma_db`
 
@@ -48,7 +48,7 @@ This is a Retrieval-Augmented Generation (RAG) system for querying course materi
 
 ### Data Flow
 1. Course documents in `docs/` → DocumentProcessor → Course/CourseChunk objects
-2. Course metadata → VectorStore.course_metadata collection
+2. Course metadata → VectorStore.course_catalog collection
 3. Course content chunks → VectorStore.course_content collection
 4. User query → ToolManager.search_tool → VectorStore semantic search
 5. Search results + conversation history → AIGenerator → Response
@@ -133,8 +133,8 @@ The system uses a tool-based approach where:
 - Sessions stored in memory (not persistent)
 
 ### Vector Storage Organization
-- `course_metadata`: Course titles, links, instructors for analytics
-- `course_content`: Text chunks with course_title and lesson_number metadata
+- `course_catalog`: Course titles, links, instructors, and lesson metadata for course resolution and analytics
+- `course_content`: Text chunks with course_title and lesson_number metadata for semantic search
 
 ## Notes for Development
 
