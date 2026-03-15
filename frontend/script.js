@@ -38,6 +38,9 @@ function setupEventListeners() {
             sendMessage();
         });
     });
+
+    // New chat button
+    document.getElementById('newChatButton')?.addEventListener('click', createNewSession);
 }
 
 
@@ -147,8 +150,28 @@ function escapeHtml(text) {
 // Removed removeMessage function - no longer needed since we handle loading differently
 
 async function createNewSession() {
+    // Clear backend session history if we have a session ID
+    if (currentSessionId) {
+        try {
+            await fetch(`${API_URL}/session/clear`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    session_id: currentSessionId
+                })
+            });
+        } catch (error) {
+            console.error('Failed to clear session on backend:', error);
+        }
+    }
+
+    // Clear chat UI and start fresh
+    if (chatMessages) {
+        chatMessages.innerHTML = '';
+    }
     currentSessionId = null;
-    chatMessages.innerHTML = '';
     addMessage('Welcome to the Course Materials Assistant! I can help you with questions about courses, lessons and specific content. What would you like to know?', 'assistant', null, true);
 }
 
